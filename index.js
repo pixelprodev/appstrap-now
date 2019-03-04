@@ -39,8 +39,14 @@ function getAssets () {
 
 }
 
-function getEndpoints () {
-
+function getEndpoints ({ nowConfig }) {
+  return nowConfig.routes.map(route => {
+    const appstrapEndpoint = {path: route.src}
+    route.methods.forEach(method => {
+      appstrapEndpoint[method.toLowerCase()] = require(path.join(process.cwd(), route.dest))
+    })
+    return appstrapEndpoint
+  })
 }
 
 module.exports = {
